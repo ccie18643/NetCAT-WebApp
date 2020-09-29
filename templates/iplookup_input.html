@@ -1,0 +1,38 @@
+<html>
+
+    <head>
+	<meta charset=utf-8 />
+	<title>NetCAT - IP address lookup</title>
+	<link href='/static/style.css' rel='stylesheet'>
+	<link href='/static/bootstrap.min.css' rel='stylesheet'>
+	<style type="text/css">
+	    ul{padding-left: 10px;}
+	</style>
+    </head>
+
+    <body>
+        <div class='container-fluid'>
+        <div class='row'>
+	<h1><a href='/' style='text-decoration : none; color : #0099E6;'><b>NetCAT</b></a> IP Address Lookup</h1>
+	<h3>Please provide IP Address to perform search for</h3>
+	<br>
+
+	<form action="" method="post" novalidate>
+	    {{ form.hidden_tag() }}	
+	    {{ form.ip_address(size = 32) }} <br><br>
+
+	    <b style="line-height: 2">Search depth:</b><br>
+	    {{ form.search_depth(style="list-style:none") }}
+
+	    <b style="line-height: 2">Information source:</b><br>
+	    <p style="margin-left: 10px; line-height: 0"> {{ form.use_arp(checked = True) }} {{ form.use_arp.label }} </p>
+	    <p style="margin-left: 10px; line-height: 0"> {{ form.use_dhcp(checked = True) }} {{ form.use_dhcp.label }} </p>
+	    <p style="margin-left: 10px; line-height: 0"> {{ form.use_dsnp(checked = True) }} {{ form.use_dsnp.label }} </p>
+	    <br>
+	    <p>{{ form.submit() }}</p>
+	</form>
+
+
+    </body>
+
+</html>

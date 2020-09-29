@@ -1,0 +1,10 @@
+boto3
+botocore
+Flask
+Flask-RESTful
+Flask-WTF
+Jinja2
+loguru
+pexpect
+pymongo
+WTForms

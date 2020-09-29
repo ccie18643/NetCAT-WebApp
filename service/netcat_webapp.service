@@ -1,0 +1,22 @@
+[Unit]
+Description=Netcat Service
+After=network.target
+
+[Service]
+Type=simple
+# Another Type: simple, forking
+User=netcat_webapp
+Group=netcat_webapp
+WorkingDirectory=/home/netcat_webapp/netcat_webapp
+#ExecStart=/home/netcat_webapp/python3.8/bin/uwsgi --http :8000 --wsgi-file netcat_webapp.py
+ExecStart=/home/netcat_webapp/python3.8/bin/gunicorn -b :8000 --chdir '/home/netcat_webapp/netcat_webapp' netcat_webapp
+Restart=on-failure
+# Other restart options: always, on-abort, etc
+
+# The install section is needed to use
+# `systemctl enable` to start on boot
+# For a user service that you want to enable
+# and start automatically, use `default.target`
+# For system level services, use `multi-user.target`
+[Install]
+WantedBy=default.target

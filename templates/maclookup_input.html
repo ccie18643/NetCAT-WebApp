@@ -1,0 +1,36 @@
+<html>
+
+    <head>
+	<meta charset=utf-8 />
+	<title>NetCAT - MAC Address Lookup</title>
+	<link href='/static/style.css' rel='stylesheet'>
+	<link href='/static/bootstrap.min.css' rel='stylesheet'>
+	<style type="text/css">
+            ul{padding-left: 10px;}
+        </style>
+    </head>
+
+    <body>
+        <div class='container-fluid'>
+        <div class='row'>
+	<h1><a href='/' style='text-decoration : none; color : #0099E6;'><b>NetCAT</b></a> MAC Address Lookup</h1>
+	<h3>Please provide MAC Address to perform search for</h3>
+	<br>
+
+	<form action="" method="post" novalidate>
+	    {{ form.hidden_tag() }}	
+	    {{ form.mac_address(size = 32) }} <br><br>
+
+	    <b style="line-height: 2">Search depth:</b><br>
+	    {{ form.search_depth(style="list-style:none") }}
+
+	    <b style="line-height: 2">Search options:</b><br>
+	    <p style="margin-left: 10px; line-height: 0"> {{ form.physical_ports_only(checked = True) }} {{ form.physical_ports_only.label }} </p>
+	    <br>
+	    <p> {{ form.submit() }} </p>
+	</form>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,60 @@
+<html>
+
+    <head>
+	<meta charset=utf-8 />
+        <title>NetCAT - Device Data History</title>
+	<link href='/static/style.css' rel='stylesheet'>
+	<link href='/static/bootstrap.min.css' rel='stylesheet'>
+        <script src='/static/epoch_to_local_time.js'></script>
+    </head>
+
+    <body>
+        <div class='container-fluid'>
+        <div class='row'>
+	<h1><a href='/' style='text-decoration : none; color : #0099E6;'><b>NetCAT</b></a> Device Data History</h1>
+	<p class='text-right small text-muted'>{{ generated_info }}</p>
+        <p><input type='text' class='form-control' placeholder='Filter table' id='inputFilter' name='filter' /></p>
+	<br><br>
+	<h3>{{ device_name.upper() }}</h3>
+	<br>
+
+	<table id="netcat" class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th>Timestamp</th>
+            </thead>
+
+	    {% for device_data in device_data_history %}
+	        <tr>
+	            {% if device_data.get("status") %}
+
+                        <td>
+			    <a id='{{ device_data.get("uuid") }}' chasis href='/services/device_data/{{ device_name }}/{{ device_data.get("snapshot_timestamp") }}'
+                            style='text-decoration : none; color : #000000;'>
+                            <script>document.getElementById('{{ device_data.get("uuid") }}').innerHTML = epoch_to_local_time({{ device_data.get("snapshot_timestamp") }})</script>
+                            </a>
+			</td>
+
+		    {% else %}
+
+                        <td id='{{ device_data.get("uuid") }}' style='text-decoration : none; color : #D0D0D0;'>
+			    <script>document.getElementById('{{ device_data.get("uuid") }}').innerHTML = epoch_to_local_time({{ device_data.get("snapshot_timestamp") }})</script>
+			</td>
+
+		    {% endif %}
+
+	        </tr>
+	    {% endfor %}
+	</table>
+
+        <script src='/static/jquery-3.2.1.slim.min.js'></script>
+	<script src='/static/tablesort.min.js'></script>
+        <script>new Tablesort(document.getElementById('netcat'));</script>
+	<script>
+            $("#inputFilter").bind("keyup", function() {var s = new RegExp(this.value);
+                    $("tr").each(function() {if(s.test(this.innerHTML)) $(this).show(); else $(this).hide();}); });
+            $("#inputFilter").triggerHandler("keyup");
+        </script>
+
+    </body>
+
+</html>

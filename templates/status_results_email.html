@@ -1,0 +1,172 @@
+<html>
+
+    <body>
+	    <h3><a href='http://netcat.net.verifone.com/status#devices' style='text-decoration : none; color : #000000;'>Inaccessible devices</a></h3>
+        <table class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th align="left">Name</th><th width="20"></th>
+		    <th align="left">Type</th><th width="20"></th>
+		    <th align="left">Last seen</th><th width="20"></th>
+            </thead>
+
+	    {% for inaccessible_device in inaccessible_devices %}
+	        <tr>
+
+                    <td>
+			{{ inaccessible_device.get("device_name").upper() }}
+		    </td>
+		    
+		    <td></td>
+
+		    <td>
+		        {{ inaccessible_device.get("device_type", "UNKNOWN").upper().replace("_", " ") }}
+		    </td>
+		    
+		    <td></td>
+
+		    <td>
+                    {% if inaccessible_device.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+                        UNKNOWN
+                    {% else %}
+		        {{ fromtimestamp(inaccessible_device.get("snapshot_timestamp") | int).strftime('%Y-%m-%d %H:%M:%S') }} EDT
+                    {% endif %}
+		    </td>
+
+	        </tr>
+	    {% endfor %}
+	</table>
+
+	<br>
+	<h3><a href='http://netcat.net.verifone.com/status#bgp_sessions' style='text-decoration : none; color : #000000;'>Broken BGP sessions</a></h3>
+        <table class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th align="left">Name</th><th width="20"></th>
+		    <th align="left">Peer IP</th><th width="20"></th>
+		    <th align="left">Peer ASN</th><th width="20"></th>
+		    <th align="left">Last seen</th><th width="20"></th>
+            </thead>
+
+	    {% for broken_bgp_session in broken_bgp_sessions %}
+	        <tr>
+                    <td>
+		        {{ broken_bgp_session.get("device_name").upper() }}
+		    </td>
+		    
+		    <td></td>
+		    
+		    <td>
+			{{ broken_bgp_session.get("peer_ip") }}
+		    </td>
+		    
+		    <td></td>
+		    
+		    <td>
+			{{ broken_bgp_session.get("peer_asn") }}
+		    </td>
+		    
+		    <td></td>
+
+		    <td>
+                        {% if broken_bgp_session.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+			    UNKNOWN
+                        {% else %}
+			    {{ fromtimestamp(broken_bgp_session.get("snapshot_timestamp") | int).strftime('%Y-%m-%d %H:%M:%S') }} EDT
+                        {% endif %}
+                    </td>
+
+	        </tr>
+	    {% endfor %}
+	</table>
+
+        <br>
+	<h3><a href='http://netcat.net.verifone.com/status#links' style='text-decoration : none; color : #000000;'>Broken links</a></h3>
+        <table class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+                    <th align="left">Name</th><th width="20"></th>
+		    <th align="left">Interface name</th><th width="20"></th>
+		    <th align="left">Interface IP</th><th width="20"></th>
+		    <th align="left">Last seen</th><th width="20"></th>
+            </thead>
+
+            {% for broken_link in broken_links %}
+                <tr>
+                    
+                    <td>
+			{{ broken_link.get("device_name").upper() }}
+		    </td>
+		    
+		    <td></td>
+                    
+		    <td>
+			{{ broken_link.get("interface_name") }}
+		    </td>
+		    
+		    <td></td>
+                    
+		    <td>
+			{{ broken_link.get("interface_ip") }}
+		    </td>
+		    
+		    <td></td>
+
+		    <td>
+		        {% if broken_link.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+		            UNKNOWN
+                        {% else %}
+			    {{ fromtimestamp(broken_link.get("snapshot_timestamp") | int).strftime('%Y-%m-%d %H:%M:%S') }} EDT
+                        {% endif %}
+		    </td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+	<br><br>
+	<h3><a href='http://netcat.net.verifone.com/status#dns' style='text-decoration : none; color : #000000;'>DNS Servers status</a></h3>
+	<h5>Poll timestamp: {{ fromtimestamp(dns_servers_status.get("snapshot_timestamp") | int).strftime('%Y-%m-%d %H:%M:%S') }} EDT</h5>
+        <table class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+                    <th align="left">Name</th><th width="20"></th>
+		    <th align="left">IP address</th><th width="20"></th>
+		    <th align="left">External</th><th width="20"></th>
+		    <th align="left">Internal</th><th width="20"></th>
+            </thead>
+
+            {% for dns_data in dns_servers_status.get("dns_data", []) %}
+                <tr>
+
+                    <td>
+                    {{ dns_data.get("description") }}
+                    </td>
+
+		    <td></td>
+
+                    <td>
+                    {{ dns_data.get("ip_address") }}
+                    </td>
+
+		    <td></td>
+
+                    <td>
+                    {{ dns_data.get("results", {}).get("external") }}
+                    </td>
+
+		    <td></td>
+
+                    <td>
+                    {{ dns_data.get("results", {}).get("internal") }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+	<br><br>
+	<sub><i>{{ generated_info }}</i></sub>
+	<br><br>
+
+    </body>
+
+</html>

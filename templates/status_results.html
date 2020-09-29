@@ -1,0 +1,179 @@
+<html>
+
+    <head>
+	<meta charset=utf-8 />
+        <title>NetCAT - Network Status</title>
+	<link href='/static/style.css' rel='stylesheet'>
+	<link href='/static/bootstrap.min.css' rel='stylesheet'>
+        <script src='/static/epoch_to_local_time.js'></script>
+    </head>
+
+    <body>
+        <div class='container-fluid'>
+        <div class='row'>
+        <h1><a href='/' style='text-decoration : none; color : #0099E6;'><b>NetCAT</b></a> Network Status</h1>
+	<p class='text-right small text-muted'>{{ generated_info }}</p>
+        <p><input type='text' class='form-control' placeholder='Filter table' id='inputFilter' name='filter' /></p>
+	<br><br>
+	<h3><a name="devices"></a>Inaccessible devices</h3>
+        <table id='netcat' class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th>Name</th><th>Type</th><th>Last seen</th>
+            </thead>
+
+	    {% for inaccessible_device in inaccessible_devices %}
+	        <tr>
+
+                    <td>
+		        <a href='/services/device_data/{{ inaccessible_device.get("device_name") }}'
+                        style='text-decoration : none; color : #000000;'>{{ inaccessible_device.get("device_name").upper() }}</a>
+		    </td>
+
+		    <td>
+		        {{ inaccessible_device.get("device_type", "UNKNOWN").upper().replace("_", " ") }}
+		    </td>
+
+		    <td>
+		        {% if inaccessible_device.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+		            UNKNOWN
+		        {% else %}
+                        <a id='{{ inaccessible_device.get("uuid") }}' chasis href='/services/device_data/{{ inaccessible_device.get("device_name") }}/{{ inaccessible_device.get("snapshot_timestamp") }}'
+                                style='text-decoration : none; color : #000000;'>
+                                <script>document.getElementById('{{ inaccessible_device.get("uuid") }}').innerHTML = epoch_to_local_time({{ inaccessible_device.get("snapshot_timestamp") }})</script>
+                        </a>
+		        {% endif %}
+		    </td>
+
+	        </tr>
+	    {% endfor %}
+	</table>
+
+	<br><br>
+	<h3><a name="bgp_sessions"></a>Broken BGP sessions</h3>
+        <table id='netcat' class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th>Name</th><th>Type</th><th>Peer IP</th><th>Peer ASN</th><th>Last seen</th>
+            </thead>
+
+	    {% for broken_bgp_session in broken_bgp_sessions %}
+	        <tr>
+
+	            <td>
+	                <a href='/status/bgp_availability_history/{{ broken_bgp_session.get("device_name") }}/{{ broken_bgp_session.get("peer_ip") }}'
+			style='text-decoration : none; color : #000000;'>{{ broken_bgp_session.get("device_name").upper() }}</a>
+		    </td>
+
+		    <td>
+                        {{ broken_bgp_session.get("device_type", "UNKNOWN").upper().replace("_", " ") }}
+		    </td>
+
+		    <td>
+		        {{ broken_bgp_session.get("peer_ip", "UNKNOWN") }}
+		    </td>
+
+		    <td>
+	                {{ broken_bgp_session.get("peer_asn", "UNKNOWN") }}
+		    </td>
+
+		    <td>
+		        {% if broken_bgp_session.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+		            UNKNOWN
+		        {% else %}
+                        <a id='{{ broken_bgp_session.get("uuid") }}' chasis href='/services/device_data/{{ broken_bgp_session.get("device_name") }}/{{ broken_bgp_session.get("snapshot_timestamp") }}'
+                                style='text-decoration : none; color : #000000;'>
+                                <script>document.getElementById('{{ broken_bgp_session.get("uuid") }}').innerHTML = epoch_to_local_time({{ broken_bgp_session.get("snapshot_timestamp") }})</script>
+                        </a>
+		        {% endif %}
+		    </td>
+
+	        </tr>
+	    {% endfor %}
+	</table>
+
+        <br><br>
+	<h3><a name="links"></a>Broken links</h3>
+        <table id='netcat' class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+                    <th>Name</th><th>Type</th><th>Interface name</th><th>Interface IP</th><th>Last seen</th>
+            </thead>
+
+            {% for broken_link in broken_links %}
+                <tr>
+
+		    <td>
+	                <a href='/status/link_availability_history/{{ broken_link.get("device_name") }}/{{ broken_link.get("interface_name_encoded") }}'
+			style='text-decoration : none; color : #000000;'>{{ broken_link.get("device_name").upper() }}</a>
+		    </td>
+                    
+		    <td>
+                        {{ broken_link.get("device_type", "UNKNOWN").upper().replace("_", " ") }}
+		    </td>
+
+                    <td>
+                        {{ broken_link.get("interface_name", "UNKNOWN") }}
+		    </td>
+
+                    <td>
+	                {{ broken_link.get("interface_ip_address", "UNKNOWN") }}
+		    </td>
+
+		    <td>
+		        {% if broken_link.get("snapshot_timestamp", "UNKNOWN") == "UNKNOWN" %}
+		            UNKNOWN
+		        {% else %}
+                        <a id='{{ broken_link.get("uuid") }}' chasis href='/services/device_data/{{ broken_link.get("device_name") }}/{{ broken_link.get("snapshot_timestamp") }}'
+                                style='text-decoration : none; color : #000000;'>
+                                <script>document.getElementById('{{ broken_link.get("uuid") }}').innerHTML = epoch_to_local_time({{ broken_link.get("snapshot_timestamp") }})</script>
+                        </a>
+		        {% endif %}
+		    </td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+        <br><br>
+	<h3><a name="dns"></a>DNS Servers status</h3>
+	<h5 id='dns_timestamp'><script>document.getElementById('dns_timestamp').innerHTML = 'Poll timestamp: ' + epoch_to_local_time({{ dns_servers_status.get("snapshot_timestamp") }})</script></h5>
+	<table id='netcat' class='table table-striped table-bordered table-condensed table-hover table-responsive'>
+            <thead>
+		    <th>Name</th><th>IP address</th><th>External</th><th>Internal</th>
+            </thead>
+
+            {% for dns_data in dns_servers_status.get("dns_data", []) %}
+                <tr>
+
+                    <td>
+                    {{ dns_data.get("description") }}
+                    </td>
+
+                    <td>
+                    {{ dns_data.get("ip_address") }}
+                    </td>
+
+                    <td>
+         	    {{ dns_data.get("results", {}).get("external") }}
+                    </td>
+
+                    <td>
+	            {{ dns_data.get("results", {}).get("internal") }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+        <script src='/static/jquery-3.2.1.slim.min.js'></script>
+	<script src='/static/tablesort.min.js'></script>
+        <script>new Tablesort(document.getElementById('netcat'));</script>
+	<script>
+            $("#inputFilter").bind("keyup", function() {var s = new RegExp(this.value);
+                    $("tr").each(function() {if(s.test(this.innerHTML)) $(this).show(); else $(this).hide();}); });
+            $("#inputFilter").triggerHandler("keyup");
+        </script>
+
+    </body>
+
+</html>
