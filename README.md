@@ -7,16 +7,16 @@ Web frontend to NetCAT Backup system. Includes device inventory, network status 
 
 
 ### Sample Network Status screens
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_01.jpg)
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_02.jpg)
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_03.jpg)
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_04.jpg)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_01.png)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_02.png)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_03.png)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ns_04.png)
 
 ### Sample IP to MAC lookup screens
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ip_01.jpg)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ip_01.png)
 ![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/ip_02.jpg)
 
 ### Sample MAC to Switch Port lookup screens
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/mac_01.jpg)
-![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/mac_02.jpg)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/mac_01.png)
+![Sample inventory screen](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/mac_02.png)
 
