@@ -1,6 +1,6 @@
 # NetCAT WebApp
 
-Web frontend to NetCAT Backup system. Includes device inventory, network status (BGP, device links, DNS, etc...), IP to MAC address lookup and MAC address to switch port lookup for the devices that are being polled by NetCAT Backup. It can read data from local/remote MongoDB database, AWS DynamoDB or Azure CosmosDB.
+Web front end to NetCAT Backup system. Includes device inventory, network status (BGP, device links, DNS, etc...), IP to MAC address lookup and MAC address to switch port lookup for the devices that are being polled by NetCAT Backup. It can read data from local/remote MongoDB database, AWS DynamoDB or Azure CosmosDB.
 
 ### Sample Inventory screenshot
 ![Sample inventory screenshot](https://github.com/ccie18643/NetCAT-WebApp/blob/master/pictures/inv_01.jpg)
